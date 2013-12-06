@@ -21,13 +21,14 @@ __ fastinverse_
 
 Capabilities
 ============
-Fastinverse currently only generates one kind of solver `invnewton` which is 
+Fastinverse currently only generates one kind of solver: ``invnewton`` which is 
 based on table lookup + newton iteration refinement.
 
 invnewton
 ---------
 InvNewton still has bugs (try changing to -0.7 and it works): 
-``` python -m pudb invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.8 --x-hi 1.0 ```
+
+`` python -m pudb invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.8 --x-hi 1.0 ``
 
 
 Installation
@@ -44,12 +45,12 @@ TODO: make a proper test suite.
 
 Dependencies
 ============
-Python_
-NumPy_
-Sympy_ 
-argh_ (optional, used for command line arguments in example)
-Cython_ 0.19 (optional)
-pycompilation_ (optional: enables use from python)
+* Python_
+* NumPy_
+* Sympy_ 
+* argh_ (optional, used for command line arguments in example)
+* Cython_ 0.19 (optional)
+* pycompilation_ (optional: enables use from python)
 
 .. _Python: http://www.python.org
 .. _NumPy: http://www.numpy.org/
