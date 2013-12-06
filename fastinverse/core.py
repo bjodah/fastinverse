@@ -108,8 +108,9 @@ def ensure_monotonic(y, x, xlim=None, strict=False, solve=True):
 
 class InvNewtonCode(C_Code):
     templates = [
-        os.path.dirname(__file__)+'/invnewton_template.c'
+        os.path.dirname(__file__)+'/invnewton_template.c',
     ]
+
     copy_files = [
         os.path.dirname(__file__)+'/prebuilt/invnewton_wrapper.o',
         os.path.dirname(__file__)+'/Makefile', # for manual compilation
@@ -127,11 +128,12 @@ class InvNewtonCode(C_Code):
 
 
     def __init__(self, yexpr, lookup_N, order, xlim,
-                 x, check_monotonicity, **kwargs):
+                 x, check_monotonicity, approxmeth='piecewise_poly', **kwargs):
         """
         If check_monotonicity == False: trust user (useful when symbolic treatment is unsuccessful)
         """
-        self.monotonic, self.ylim, self.incr = ensure_monotonic(yexpr, x, xlim, solve=check_monotonicity)
+        self.monotonic, self.ylim, self.incr = ensure_monotonic(
+            yexpr, x, xlim, solve=check_monotonicity)
         if not self.monotonic:
             raise ValueError("{} is not monotonic on xlim={}".format(yexpr, xlim))
         self.y = yexpr
@@ -144,8 +146,12 @@ class InvNewtonCode(C_Code):
         self.order = order
         self.xlim = xlim
         self.x = x
+        self.approxmeth = approxmeth
+        self.templates.append(os.path.dirname(__file__)+\
+                              '/approx_x_{}_template.c'.format(self.approxmeth))
         self.populate_lookup_x()
         super(InvNewtonCode, self).__init__(**kwargs)
+
 
     def populate_lookup_x(self):
         self.lookup_x = np.empty(self.lookup_N*(self.order+1))
@@ -173,6 +179,8 @@ class InvNewtonCode(C_Code):
 
             for j, y in np.ndenumerate(ysample):
                 val, err = solve_x(ysample[j])
+
+                # Require some accuracy in convergence.
                 assert err < (self.xlim[1]-self.xlim[0])/self.lookup_N/1e3
                 xsample[j] = val
             data[i,:] = derivatives_at_point_by_finite_diff(
@@ -181,26 +189,40 @@ class InvNewtonCode(C_Code):
         pw = PiecewisePolynomial(self.lookup_y, data)
         self.lookup_x[:] = np.array(pw.c).flatten()
 
+    def expr(self, approxmeth):
+        """ returns (expr, dummy_groups, arrayify_groups) """
+        if approxmeth == 'piecewise_poly':
+            # see approx_x_piecewise_poly_template.c
+            c = [sympy.Symbol('c_' + str(o), real = True) for \
+                 o in range(self.order + 1)]
+            localy = sympy.Symbol('localy')
+
+            return (
+                sum([c[o]*localy**o for o in range(self.order + 1)]),
+                (DummyGroup('coeffdummy', c),),
+                (ArrayifyGroup('coeffdummy', 'lookup_x', 'tbl_offset'),)
+            )
+        else:
+            raise ValueError("Unkown approxmeth={}".format(approxmeth))
+
     def variables(self):
         cses, (y_in_cse, dydx_in_cse) = self.get_cse_code(
             [self.y, self.dydx])
-        c = [sympy.Symbol('c_' + str(o), real = True) for \
-             o in range(self.order + 1)]
-        dummy_groups = (DummyGroup('coeffdummy', c),)
+        expr, dummy_groups, arrayify_groups, = self.expr(self.approxmeth)
         # See approx_x() in invnewton_template.c
-        arrayify_groups=(ArrayifyGroup('coeffdummy', 'lookup_x', 'tbl_offset'),)
-        localy = sympy.Symbol('localy')
-        poly_expr = self.as_arrayified_code(
-            sum([c[o]*localy**o for o in range(self.order + 1)]),
+        fit_expr = self.as_arrayified_code(
+            expr,
             dummy_groups, arrayify_groups)
         return {
+            'approxmeth': self.approxmeth,
             'ylim': self.ylim,
             'xlim': self.xlim,
             'lookup_N': self.lookup_N,
             'lookup_x': self.lookup_x,
-            'poly_expr': poly_expr,
+            'fit_expr': fit_expr,
             'order': self.order,
             'cses': cses,
             'y_in_cse': y_in_cse,
             'dydx_in_cse': dydx_in_cse,
+            'NY_MIN_OMP_BREAKEVEN': 100, # Could be auto-tuned in setup.py
         }
