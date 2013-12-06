@@ -1,3 +1,5 @@
+IMPORTANT: ALPHA STATUS, KNOWN BUGS STILL PRESENT (READ BELOW)
+
 ===========
 fastinverse
 ===========
@@ -5,13 +7,9 @@ fastinverse
 fastinverse_ is a small python extension for optimized interpolation of
 data series for which each time point has up to N-th order derivative.
 
-It provides a c:a 5 orders of magnitude faster (albeit less general)
-version of `scipy.interpolate.PiecewisePolynomial` (on my dual core laptop I get speed-up of 160 000x). 
-
-See examples/perf.py for a quick head-on benchmark between those two
-(expect a runtime on the order of half a minute).  The performance is
-achieved through the use of multithreaded (OpenMP) C
- (with some equations generated through Sympy) and Cython.
+It generates fast C (C99) code for use tranparently from Python or for use
+in external projects. For calculation of large number of inverse values
+parallelization through OpenMP is used.
 
 Feel free to enhance modify and make pull request at `github`__ to
 

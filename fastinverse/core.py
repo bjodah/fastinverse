@@ -211,8 +211,7 @@ class InvNewtonCode(C_Code):
         expr, dummy_groups, arrayify_groups, = self.expr(self.approxmeth)
         # See approx_x() in invnewton_template.c
         fit_expr = self.as_arrayified_code(
-            expr,
-            dummy_groups, arrayify_groups)
+            expr, dummy_groups, arrayify_groups)
         return {
             'approxmeth': self.approxmeth,
             'ylim': self.ylim,
