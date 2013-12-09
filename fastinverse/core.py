@@ -11,7 +11,8 @@ import sympy
 
 from pycompilation.codeexport import C_Code, ArrayifyGroup, DummyGroup
 
-from cInterpol import derivatives_at_point_by_finite_diff, PiecewisePolynomial
+from cInterpol import PiecewisePolynomial
+from finitediff import derivatives_at_point_by_finite_diff
 
 try:
     from symvarsub.numtransform import lambdify

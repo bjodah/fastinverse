@@ -1,5 +1,14 @@
+TAGS
+*~
+.*~
+.#*
+\#*#
+*/*~
+*/.*~
+*/.#*
+*/#*#
+*.pyc
+*/*.pyc
 examples/build*/*
 examples/build*/.*
 fastinverse/prebuilt/*
-*.pyc
-*/*.pyc
