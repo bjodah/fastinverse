@@ -4,8 +4,8 @@ IMPORTANT: ALPHA STATUS, KNOWN BUGS STILL PRESENT (READ BELOW)
 fastinverse
 ===========
 
-fastinverse_ is a small python extension for optimized interpolation of
-data series for which each time point has up to N-th order derivative.
+fastinverse_ is a small python extension for generating code which computes
+the inverse of a function (which presumably lacks an explicit inverse).
 
 It generates fast C (C99) code for use tranparently from Python or for use
 in external projects. For calculation of large number of inverse values
