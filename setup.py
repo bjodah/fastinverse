@@ -29,7 +29,7 @@ class my_build_ext(build_ext.build_ext):
 
 setup(
     name='fastinverse',
-    version='0.0.1',
+    version='0.0.2',
     description='Python package using SymPy for generating fast C code solving inverse problems.',
     author='Björn Dahlgren',
     author_email='bjodah@DELETEMEgmail.com',
