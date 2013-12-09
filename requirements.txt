@@ -1,5 +1,6 @@
-numpy
-cython
+numpy>=1.6.1
+cython>=0.19
+sympy>=0.7.3
 https://github.com/bjodah/pycompilation/archive/v0.2.tar.gz
 https://github.com/bjodah/cinterpol/archive/v0.2.tar.gz
 https://github.com/bjodah/finitediff/archive/v0.1.tar.gz
