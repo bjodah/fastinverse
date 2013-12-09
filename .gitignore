@@ -9,6 +9,7 @@ TAGS
 */#*#
 *.pyc
 */*.pyc
+build/
 examples/build*/*
 examples/build*/.*
 fastinverse/prebuilt/*

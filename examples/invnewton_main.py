@@ -16,11 +16,7 @@ from sympy.parsing.sympy_parser import (
 
 
 from fastinverse import InvNewtonCode
-
-try:
-    from symvarsub.numtransform import lambdify
-except IOError:
-    from sympy.utilities.lambdify import lambdify
+from fastinverse.core import lambdify
 
 
 logging.basicConfig(level=logging.DEBUG)

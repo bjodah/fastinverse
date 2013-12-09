@@ -2,38 +2,50 @@
 # -*- coding: utf-8 -*-
 
 import os
+import glob
 
 from distutils.core import setup
-from distutils.command import build_ext
+from distutils.command import build
 
-pyx_name = 'invnewton_wrapper.pyx'
-package_dir = 'fastinverse'
-prebuilt_dir = 'prebuilt'
+pyx_path = 'fastinverse/invnewton_wrapper.pyx'
 
-DEBUG=True
 
-class my_build_ext(build_ext.build_ext):
+class my_build(build.build):
     def run(self):
-        if not self.dry_run: # honor the --dry-run flag
-            try:
-                from pycompilation import pyx2obj
-                from pycompilation.util import copy
-                obj_path = pyx2obj(pyx_name, prebuilt_dir,
-                                   interm_c_dir=prebuilt_dir,
-                                   metadir=prebuilt_dir,
-                                   cwd=package_dir)
-                copy(obj_path, prebuilt_dir)
-            except ImportError:
-                print("Could not import `pycompilation`, invnewton won't work from python.'")
+        build.build.run(self)
+        try:
+            from pycompilation import pyx2obj
+            from pycompilation.util import copy, make_dirs
+        except ImportError:
+            print("Could not import `pycompilation`, invnewton won't work from python.'")
+            return
+        if self.dry_run: return# honor the --dry-run flag
+        copy(pyx_path, self.build_temp,
+             dest_is_dir=True, create_dest_dirs=True)
+        prebuilt_temp = os.path.join(
+            self.build_temp, 'prebuilt/')
+        make_dirs(prebuilt_temp)
+        obj_path = pyx2obj(pyx_path, prebuilt_temp,
+                           interm_c_dir=prebuilt_temp,
+                           metadir=prebuilt_temp,
+                           )
+        if self.inplace:
+            prebuilt_lib = 'fastinverse/prebuilt/'
+        else:
+            prebuilt_lib = os.path.join(
+                self.build_lib, 'fastinverse/prebuilt/')
+        make_dirs(prebuilt_lib)
+        copy(obj_path, prebuilt_lib)
+        copy(glob.glob(prebuilt_temp+'.meta*')[0], prebuilt_lib)
 
 
 setup(
     name='fastinverse',
-    version='0.0.2',
+    version='0.0.3',
     description='Python package using SymPy for generating fast C code solving inverse problems.',
     author='Björn Dahlgren',
     author_email='bjodah@DELETEMEgmail.com',
     url='https://github.com/bjodah/fastinverse',
     packages=['fastinverse'],
-    cmdclass = {'build_ext': my_build_ext},
+    cmdclass = {'build': my_build},
 )

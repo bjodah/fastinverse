@@ -16,8 +16,23 @@ from finitediff import derivatives_at_point_by_finite_diff
 
 try:
     from symvarsub.numtransform import lambdify
-except IOError:
-    from sympy.utilities.lambdify import lambdify
+except ImportError:
+    """
+    lambdify from numtansform supports numpy array input,
+    this is a workaround.
+    """
+    from sympy.utilities.lambdify import lambdify as _lambdify
+    from functools import wraps
+    def lambdify(x, expr):
+        cb = _lambdify(x, expr)
+        @wraps(cb)
+        def wrapper(arr):
+            if isinstance(arr, np.ndarray):
+                return np.array(
+                    [cb(v) for v in arr])
+            else:
+                return cb(arr)
+        return wrapper
 
 
 def make_solver(y, x, ylim, xlim, invertible_fitter=None):

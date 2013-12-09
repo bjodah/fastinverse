@@ -1,4 +1,4 @@
-IMPORTANT: ALPHA STATUS, KNOWN BUGS STILL PRESENT (READ BELOW)
+*IMPORTANT: ALPHA STATUS, KNOWN BUGS STILL PRESENT (READ BELOW)*
 
 ===========
 fastinverse
@@ -7,9 +7,10 @@ fastinverse
 fastinverse_ is a small python extension for generating code which computes
 the inverse of a function (which presumably lacks an explicit inverse).
 
-It generates fast C (C99) code for use tranparently from Python or for use
-in external projects. For calculation of large number of inverse values
-parallelization through OpenMP is used.
+It generates fast C (C99) code for use either tranparently from Python,
+or for use in external projects. 
+
+For calculation of large number of inverse values parallelization through OpenMP is used.
 
 Feel free to enhance modify and make pull request at `github`__ to
 
@@ -24,9 +25,9 @@ based on table lookup + newton iteration refinement.
 
 invnewton
 ---------
-InvNewton still has bugs (try changing to -0.7 and it works): 
+InvNewton still has bugs (try changing to -0.8 to -0.7 and it works): 
 
-`` python -m pudb invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.8 --x-hi 1.0 ``
+`python invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.8 --x-hi 1.0`
 
 
 Installation
@@ -36,9 +37,12 @@ See distutils' documentation_ for more options.
 
 .. _documentation: http://docs.python.org/2/library/distutils.html
 
+Using pip it can be installed as:
+`pip install --user https://github.com/bjodah/fastinverse/archive/v0.0.2.tar.gz`
+
 Tests
 =====
-TODO: make a proper test suite.
+Run `py.test` in root.
 
 
 Dependencies
