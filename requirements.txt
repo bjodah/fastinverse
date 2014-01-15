@@ -1,6 +1,7 @@
 numpy>=1.6.1
-cython>=0.19
+cython>=0.19.1
 sympy>=0.7.3
-https://github.com/bjodah/pycompilation/archive/v0.2.1.tar.gz
-https://github.com/bjodah/cinterpol/archive/v0.2.tar.gz
-https://github.com/bjodah/finitediff/archive/v0.1.tar.gz
+mako>=0.5.0
+https://github.com/bjodah/pycompilation/archive/v0.2.7.tar.gz
+https://github.com/bjodah/cinterpol/archive/v0.3.tar.gz
+https://github.com/bjodah/finitediff/archive/v0.1.2.tar.gz

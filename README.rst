@@ -18,6 +18,17 @@ Feel free to enhance modify and make pull request at `github`__ to
 
 __ fastinverse_
 
+
+Installation
+============
+E.g. do:
+
+`pip install --user --upgrade -r http://raw.github.com/bjodah/fastinverse/master/requirements.txt`
+`pip install --user --upgrade http://github.com/bjodah/fastinverse/archive/v0.0.3.tar.gz`
+
+(modify to your needs)
+
+
 Capabilities
 ============
 Fastinverse currently only generates one kind of solver: ``invnewton`` which is 
