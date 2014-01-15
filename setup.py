@@ -7,7 +7,7 @@ import glob
 from distutils.core import setup
 from distutils.command import build
 
-version_ = '0.0.3'
+version_ = '0.0.4'
 name_ = 'fastinverse'
 
 pyx_path = os.path.join(name_,'invnewton_wrapper.pyx')
