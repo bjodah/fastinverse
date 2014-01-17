@@ -1,4 +1,4 @@
-// 
+// ${_warning_in_the_generated_file_not_to_edit}
 
 const int ndpp = ${order+1}; // number of data per point
 const double y_space = (${ylim[1]} - ${ylim[0]})/(${lookup_N}-1.0);

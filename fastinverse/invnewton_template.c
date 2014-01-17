@@ -1,7 +1,11 @@
-// mako template of C99 source
-// Lightning fast newton iteration for finding inverse of a function
-// variables:
-// y_lo, y_hi, x_lo, x_hi, lookup_N, lookup_x, lookup_poly, poly_expr, order, cses, y_in_cse, dydx_in_cse
+// ${_warning_in_the_generated_file_not_to_edit}
+<%doc>
+  // mako template of C99 source
+  // Lightning fast newton iteration for finding inverse of a function
+  // variables:
+  //     y_lo, y_hi, x_lo, x_hi, lookup_N, lookup_x, lookup_poly,
+  //     poly_expr, order, cses, y_in_cse, dydx_in_cse
+</%doc>
 
 #include <math.h>
 #include "invnewton.h"
