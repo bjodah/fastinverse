@@ -4,6 +4,9 @@
 fastinverse
 ===========
 
+.. image:: https://travis-ci.org/bjodah/fastinverse.png?branch=master
+   :target: https://travis-ci.org/bjodah/fastinverse
+
 fastinverse_ is a small python extension for generating code which computes
 the inverse of a function (which presumably lacks an explicit inverse).
 
