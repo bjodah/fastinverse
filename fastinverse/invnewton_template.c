@@ -16,8 +16,9 @@ static inline double dabs(const double x){return x > 0 ? x : -x;}
 // include a definition of "static double approx_x(double y)"
 #include "approx_x_${approxmeth}.c"
 
-int c_invnewton(double y, double * restrict xout, double abstol_y, 
-		double abstol_x, int iabstol, int itermax, int save_conv, double * restrict conv_dx)
+int c_invnewton(double y, double * const restrict xout, double abstol_y, 
+		double abstol_x, int iabstol, int itermax, int save_conv, 
+		double * const restrict conv_dx)
 {
   // iabstol: 0 => abstol_y, 1 => abstol_x, 2 => abstol_y & abstol_x
   // if save_conv == 1; ensure sizeof(conv_dx) >= sizeof(double)*itermax
@@ -58,7 +59,7 @@ int c_invnewton(double y, double * restrict xout, double abstol_y,
   return i+1;
 }
 
-int c_invnewton_arr(int ny, const double * restrict y, double * restrict x, 
+int c_invnewton_arr(int ny, const double * const restrict y, double * const restrict x, 
 		    double abstol_y, double abstol_x, int iabstol, int itermax)
 {
   // Returns -1 on successful exit
