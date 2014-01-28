@@ -41,7 +41,7 @@ invnewton
 ---------
 InvNewton still has bugs (try changing to -0.8 to -0.7 and it works): 
 
-`python invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.8 --x-hi 1.0`
+``python invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.8 --x-hi 1.0``
 
 
 Tests
