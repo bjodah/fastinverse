@@ -1,0 +1,12 @@
+language: python
+python:
+  - "2.7"
+#later: - "3.3"
+# command to install dependencies
+install:
+  - "pip install -r requirements.txt"
+  - "python setup.py install"    
+# command to run tests
+script: "py.test ."
+notifications:
+  email: false

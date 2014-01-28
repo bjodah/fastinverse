@@ -4,6 +4,8 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import logging
+import time
+import sys
 
 import argh
 import matplotlib.pyplot as plt
@@ -25,8 +27,8 @@ logger = logging.getLogger(__file__)
 # y=x/(1+x) has the inverse x = y/(1-y)
 # for x>-1 and x<-1 (inc/inc)
 def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
-         x='x', save_temp=True, sample_N=42, check_monotonicity=False,
-         itermax=20):
+         x='x', save_temp=True, sample_N=10240000, check_monotonicity=False,
+         itermax=20, nth=1024, silent=False):
     # Parse yexprstr
     yexpr = parse_expr(yexprstr, transformations=(
         standard_transformations + (implicit_multiplication_application,)))
@@ -57,24 +59,37 @@ def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
     # Calculate inverse for some randomly sampled values of y on span
     yspan = ylim[1]-ylim[0]
     yarr = ylim[0]+np.random.random(sample_N)*yspan
+    t0 = time.time()
     xarr = mod.invnewton(yarr, itermax=itermax)
+    trun = time.time()-t0
+    print("Runtime (interpolation): ", trun)
 
-    # Plot the results
     if explicit_inverse:
-        plt.subplot(212)
         cb_expl = lambdify(y, explicit_inverse)
         xarr_expl = cb_expl(yarr).flatten()
-        plt.plot(yarr, xarr_expl-xarr, 'x', label='Error')
+
+    if not silent:
+        # Plot the results
+        if explicit_inverse:
+            plt.subplot(212)
+            plt.plot(yarr[::nth], xarr_expl[::nth]-xarr[::nth], 'x', label='Error')
+            plt.ylabel('x')
+            plt.xlabel('y')
+            plt.legend()
+            plt.subplot(211)
+            plt.plot(yarr[::nth], xarr_expl[::nth], 'x', label='Analytic')
+
+        plt.plot(yarr[::nth], xarr[::nth], 'o', label='Numerical')
         plt.ylabel('x')
         plt.xlabel('y')
         plt.legend()
-        plt.subplot(211)
-        plt.plot(yarr, xarr_expl, 'x', label='Analytic')
+        plt.show()
 
-    plt.plot(yarr, xarr, 'o', label='Numerical')
-    plt.ylabel('x')
-    plt.xlabel('y')
-    plt.legend()
-    plt.show()
+    if explicit_inverse:
+        # our test
+        if np.allclose(xarr_expl, xarr):
+            sys.exit(0)
+        else:
+            sys.exit(1)
 
 argh.dispatch_command(main)

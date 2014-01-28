@@ -8,7 +8,6 @@ import shutil
 import numpy as np
 import sympy
 
-
 from pycompilation.codeexport import C_Code, ArrayifyGroup, DummyGroup
 
 from cInterpol import PiecewisePolynomial
@@ -18,7 +17,7 @@ try:
     from symvarsub.numtransform import lambdify
 except ImportError:
     """
-    lambdify from numtansform supports numpy array input,
+    lambdify from symvarsub.numtansform supports numpy array input,
     this is a workaround.
     """
     from sympy.utilities.lambdify import lambdify as _lambdify
@@ -80,7 +79,6 @@ def make_solver(y, x, ylim, xlim, invertible_fitter=None):
     return inv_y
 
 
-
 def ensure_monotonic(y, x, xlim=None, strict=False, solve=True):
     """
     Checks whehter an expression (y) in one variable (x)
@@ -127,15 +125,15 @@ class InvNewtonCode(C_Code):
         os.path.dirname(__file__)+'/invnewton_template.c',
     ]
 
-    copy_files = [
-        os.path.dirname(__file__)+'/prebuilt/invnewton_wrapper.o',
+    build_files = [
+        os.path.dirname(__file__)+'/prebuilt/_invnewton.o',
         os.path.dirname(__file__)+'/Makefile', # for manual compilation
         os.path.dirname(__file__)+'/invnewton_main.c',
         os.path.dirname(__file__)+'/invnewton.h']
     source_files = ['invnewton.c']
     obj_files = ['invnewton.o', # rendenered and compiled template
-                 'invnewton_wrapper.o']
-    so_file = 'invnewton_wrapper.so'
+                 '_invnewton.o']
+    so_file = '_invnewton.so'
 
     compile_kwargs = {
         'options': ['warn', 'pic', 'fast', 'openmp'],
