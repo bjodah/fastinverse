@@ -26,7 +26,7 @@ else:
     cmdclass_ = {'build_ext': clever_build_ext}
     ext_modules_ = [
         make_CleverExtension_for_prebuilding_Code(
-            '._invnewton', InvNewtonCode,
+            name_+'._invnewton', InvNewtonCode,
             ['_invnewton.pyx'],
             srcdir=name_,
             logger=True

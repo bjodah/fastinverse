@@ -122,14 +122,14 @@ def ensure_monotonic(y, x, xlim=None, strict=False, solve=True):
 
 class InvNewtonCode(C_Code):
     templates = [
-        os.path.dirname(__file__)+'/invnewton_template.c',
+        'invnewton_template.c',
     ]
 
     build_files = [
-        os.path.dirname(__file__)+'/prebuilt/_invnewton.o',
-        os.path.dirname(__file__)+'/Makefile', # for manual compilation
-        os.path.dirname(__file__)+'/invnewton_main.c',
-        os.path.dirname(__file__)+'/invnewton.h']
+        'prebuilt/_invnewton.o',
+        'Makefile', # for manual compilation
+        'invnewton_main.c',
+        'invnewton.h']
     source_files = ['invnewton.c']
     obj_files = ['invnewton.o', # rendenered and compiled template
                  '_invnewton.o']
