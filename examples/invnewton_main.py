@@ -9,7 +9,6 @@ import time
 import sys
 
 import argh
-import matplotlib.pyplot as plt
 import numpy as np
 import sympy
 from sympy.parsing.sympy_parser import (
@@ -72,6 +71,8 @@ def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
 
     if not silent:
         # Plot the results
+        import matplotlib.pyplot as plt
+
         if explicit_inverse:
             plt.subplot(212)
             plt.plot(yarr[::nth], xarr_expl[::nth]-xarr[::nth], 'x', label='Error')

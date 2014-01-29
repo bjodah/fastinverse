@@ -58,6 +58,7 @@ Dependencies
 * Cython_ 0.19 (optional)
 * pycompilation_ (optional: enables use from python)
 * symvarsub_ (optional)
+* matplotlib_ (optional)
 
 .. _Python: http://www.python.org
 .. _NumPy: http://www.numpy.org/
@@ -67,6 +68,7 @@ Dependencies
 .. _pycompilation: https://github.com/bjodah/pycompilation
 .. _argh: https://pypi.python.org/pypi/argh
 .. _symvarsub: https://github.com/bjodah/symvarsub
+.. _matplotlib: http://matplotlib.org
 
 License
 =======
