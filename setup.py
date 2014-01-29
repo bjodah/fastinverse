@@ -8,7 +8,7 @@ import sys
 from distutils.core import setup
 from distutils.command import build
 
-version_ = '0.0.5'
+version_ = '0.0.6'
 name_ = 'fastinverse'
 
 pyx_path = os.path.join(name_, '_invnewton.pyx')

@@ -27,7 +27,7 @@ Installation
 E.g. do:
 
 ``pip install --user --upgrade -r http://raw.github.com/bjodah/fastinverse/master/requirements.txt``
-``pip install --user --upgrade http://github.com/bjodah/fastinverse/archive/v0.0.5.tar.gz``
+``pip install --user --upgrade http://github.com/bjodah/fastinverse/archive/v0.0.6.tar.gz``
 
 (modify to your needs)
 
