@@ -4,6 +4,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import logging
+import os
 import time
 import sys
 
@@ -28,7 +29,7 @@ logger = logging.getLogger(__file__)
 # for x>-1 and x<-1 (inc/inc)
 def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
          x='x', save_temp=True, sample_N=10240000, check_monotonicity=False,
-         itermax=20, nth=1024, silent=False):
+         itermax=20, nth=102400, silent=False):
     # Parse yexprstr
     yexpr = parse_expr(yexprstr, transformations=(
         standard_transformations + (implicit_multiplication_application,)))
@@ -49,7 +50,8 @@ def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
     try:
         code = InvNewtonCode(
             yexpr, lookup_N, order, (x_lo, x_hi), x, check_monotonicity,
-            save_temp=save_temp, tempdir='build_invnewton', logger=logger)
+            save_temp=save_temp, logger=logger, tempdir=os.path.join(
+                os.path.dirname(__file__), 'build_invnewton'),)
     except IOError:
         print("Have you run `setup.py build_ext`?")
         raise
@@ -86,10 +88,6 @@ def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
         plt.show()
 
     if explicit_inverse:
-        # our test
-        if np.allclose(xarr_expl, xarr):
-            sys.exit(0)
-        else:
-            sys.exit(1)
+        assert np.allclose(xarr_expl, xarr) # our test
 
 argh.dispatch_command(main)
