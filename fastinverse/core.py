@@ -137,7 +137,8 @@ class InvNewtonCode(C_Code):
 
     compile_kwargs = {
         'options': ['warn', 'pic', 'fast', 'openmp'],
-        'std': 'c99'
+        'std': 'c99',
+        'inc_dirs': [np.get_include()],
     }
 
 
