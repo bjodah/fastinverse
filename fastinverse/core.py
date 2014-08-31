@@ -8,7 +8,7 @@ import shutil
 import numpy as np
 import sympy
 
-from pycompilation.codeexport import C_Code, ArrayifyGroup, DummyGroup
+from pycodeexport.codeexport import C_Code, ArrayifyGroup, DummyGroup
 
 from cInterpol import PiecewisePolynomial
 from finitediff import derivatives_at_point_by_finite_diff
@@ -121,7 +121,7 @@ def ensure_monotonic(y, x, xlim=None, strict=False, solve=True):
 
 
 class InvNewtonCode(C_Code):
-    _basedir = os.path.dirname(__file__)
+    basedir = os.path.dirname(__file__)
     templates = [
         'invnewton_template.c',
     ]

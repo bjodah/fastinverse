@@ -39,9 +39,8 @@ based on table lookup of polynomial coefficient + interpolation + newton iterati
 
 invnewton
 ---------
-InvNewton still has bugs (try changing to -0.8 to -0.7 and it works): 
 
-``python invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.8 --x-hi 1.0``
+``python invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.7 --x-hi 0.7``
 
 
 Tests
@@ -57,6 +56,7 @@ Dependencies
 * argh_ (optional, used for command line arguments in example)
 * Cython_ 0.19 (optional)
 * pycompilation_ (optional: enables use from python)
+* pycodeexport_ (optional: enables use from python)
 * symvarsub_ (optional)
 * matplotlib_ (optional)
 
@@ -66,6 +66,7 @@ Dependencies
 .. _Cython: http://www.cython.org/
 .. _Sympy: http://sympy.org/
 .. _pycompilation: https://github.com/bjodah/pycompilation
+.. _pycodeexport: https://github.com/bjodah/pycodeexport
 .. _argh: https://pypi.python.org/pypi/argh
 .. _symvarsub: https://github.com/bjodah/symvarsub
 .. _matplotlib: http://matplotlib.org
