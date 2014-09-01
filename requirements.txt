@@ -8,4 +8,4 @@ https://github.com/bjodah/pycompilation/archive/v0.3.2.tar.gz
 https://github.com/bjodah/pycodeexport/archive/v0.0.2.tar.gz
 https://github.com/bjodah/cinterpol/archive/v0.3.4.tar.gz
 https://github.com/bjodah/finitediff/archive/v0.1.10.tar.gz
-https://github.com/bjodah/symvarsub/archive/v0.0.12.tar.gz
+https://github.com/bjodah/symvarsub/archive/v0.0.13.tar.gz
