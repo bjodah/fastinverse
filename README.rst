@@ -1,5 +1,3 @@
-*IMPORTANT: ALPHA STATUS, KNOWN BUGS STILL PRESENT (READ BELOW)*
-
 ===========
 fastinverse
 ===========
@@ -24,10 +22,13 @@ __ fastinverse_
 
 Installation
 ============
-E.g. do:
+E.g.
 
-``pip install --user --upgrade -r http://raw.github.com/bjodah/fastinverse/master/requirements.txt``
-``pip install --user --upgrade http://github.com/bjodah/fastinverse/archive/v0.0.6.tar.gz``
+::
+
+   $ pip install --user --upgrade -r http://raw.github.com/bjodah/fastinverse/master/requirements.txt
+   $ pip install --user --upgrade http://github.com/bjodah/fastinverse/archive/v0.0.6.tar.gz
+
 
 (modify to your needs)
 
@@ -41,6 +42,22 @@ invnewton
 ---------
 
 ``python invnewton_main.py -y 'tan(x)' -l 5 -o 3 --sample-N 1000 --x-lo -0.7 --x-hi 0.7``
+
+Example
+-------
+
+.. code:: python
+
+   >>> import sympy
+   >>> from fastinverse import InvNewtonCode
+   >>> x = sympy.Symbol('x')
+   >>> y = x/(1+x)  # inverse: y/(1-y)
+   >>> lookup_N, order, xlim = 10, 1, (0,1)
+   >>> invnewton = InvNewtonCode(y, lookup_N, order, xlim, x)
+   >>> ylim = invnewton.ylim
+   >>> mod = invnewton.compile_and_import_binary()
+   >>> mod.invnewton(0.4, itermax=100)  # .4/.6
+   [ 0.333333333]
 
 
 Tests

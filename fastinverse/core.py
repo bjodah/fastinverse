@@ -149,7 +149,7 @@ class InvNewtonCode(C_Code):
 
 
     def __init__(self, yexpr, lookup_N, order, xlim,
-                 x, check_monotonicity, approxmeth='piecewise_poly', **kwargs):
+                 x, check_monotonicity=False, approxmeth='piecewise_poly', **kwargs):
         """
         If check_monotonicity == False: trust user (useful when symbolic treatment is unsuccessful)
         """
