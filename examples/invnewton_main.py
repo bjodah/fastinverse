@@ -91,4 +91,5 @@ def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
     if explicit_inverse:
         assert np.allclose(xarr_expl, xarr) # our test
 
-argh.dispatch_command(main)
+if __name__ == '__main__':
+    argh.dispatch_command(main)
