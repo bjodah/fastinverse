@@ -67,8 +67,8 @@ def make_solver(y, x, ylim, xlim, invertible_fitter=None):
         else:
             x_ = y0 + y*DxDy  # guess (linear over xspan)
         dy = cb_y(x_)-y
-        i=0
-        dx=0.0  # could skip while-loop
+        i = 0
+        dx = 0.0  # could skip while-loop
         while abs(dy) > abstol and i < itermax:
             dx = -dy/cb_dydx(x_)
             x_ += dx
@@ -101,7 +101,7 @@ def ensure_monotonic(y, x, xlim=None, strict=False, solve=True):
 
     """
     ylim = list(map(float, (y.subs({x: xlim[0]}),
-                       y.subs({x: xlim[1]}))
+                            y.subs({x: xlim[1]}))
     ))
     if ylim[0] > ylim[1]:
         ylim = (ylim[1], ylim[0])
@@ -117,8 +117,10 @@ def ensure_monotonic(y, x, xlim=None, strict=False, solve=True):
         xs = sympy.solve(dydx, x)
         for v in xs:
             if xlim:
-                if v < xlim[0] or v > xlim[1]: continue
-            if strict: return False, None, None
+                if v < xlim[0] or v > xlim[1]:
+                    continue
+            if strict:
+                return False, None, None
             if d2ydx2.subs({x: v}) != 0:
                 return False, None, None
     return True, ylim, incr
@@ -132,7 +134,7 @@ class InvNewtonCode(C_Code):
 
     build_files = [
         'prebuilt/_invnewton.o',
-        'Makefile', # for manual compilation
+        'Makefile',  # for manual compilation
         'invnewton_main.c',
         'invnewton.h']
 
@@ -141,7 +143,7 @@ class InvNewtonCode(C_Code):
     ]
 
     source_files = ['invnewton.c']
-    obj_files = ['invnewton.o', # rendenered and compiled template
+    obj_files = ['invnewton.o',  # rendenered and compiled template
                  '_invnewton.o']
     so_file = '_invnewton.so'
 
@@ -172,8 +174,10 @@ class InvNewtonCode(C_Code):
         self.xlim = xlim
         self.x = x
         self.approxmeth = approxmeth
-        self.templates.append(os.path.dirname(__file__)+\
-                              '/approx_x_{}_template.c'.format(self.approxmeth))
+        self.templates.append(
+            os.path.dirname(__file__) +
+            '/approx_x_{}_template.c'.format(self.approxmeth)
+        )
         self.populate_lookup_x()
         super(InvNewtonCode, self).__init__(**kwargs)
 
@@ -187,7 +191,7 @@ class InvNewtonCode(C_Code):
         yspace = (self.ylim[1]-self.ylim[0])/(self.lookup_N-1)
         solve_x = make_solver(self.y, self.x, self.ylim, self.xlim)
         for i in range(self.lookup_N):
-            nsample = (self.order+1)*2-1 # 3, 7, 11, ...
+            nsample = (self.order+1)*2-1  # 3, 7, 11, ...
             xsample = np.empty(nsample)
             if i == 0:
                 ysample = np.linspace(self.lookup_y[i],
@@ -208,7 +212,7 @@ class InvNewtonCode(C_Code):
                 # Require some accuracy in convergence.
                 assert err < (self.xlim[1]-self.xlim[0])/self.lookup_N/1e3
                 xsample[j] = val
-            data[i,:] = derivatives_at_point_by_finite_diff(
+            data[i, :] = derivatives_at_point_by_finite_diff(
                 ysample, xsample, self.lookup_y[i], (self.order-1)/2)
 
         pw = PiecewisePolynomial(self.lookup_y, data)
@@ -218,7 +222,7 @@ class InvNewtonCode(C_Code):
         """ returns (expr, dummy_groups, arrayify_groups) """
         if approxmeth == 'piecewise_poly':
             # see approx_x_piecewise_poly_template.c
-            c = [sympy.Symbol('c_' + str(o), real = True) for \
+            c = [sympy.Symbol('c_' + str(o), real=True) for \
                  o in range(self.order + 1)]
             localy = sympy.Symbol('localy')
 
@@ -248,5 +252,5 @@ class InvNewtonCode(C_Code):
             'cses': cses,
             'y_in_cse': y_in_cse,
             'dydx_in_cse': dydx_in_cse,
-            'NY_MIN_OMP_BREAKEVEN': 100, # Could be auto-tuned in setup.py
+            'NY_MIN_OMP_BREAKEVEN': 100,  # Could be auto-tuned in setup.py
         }

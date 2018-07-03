@@ -6,7 +6,6 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import logging
 import os
 import time
-import sys
 
 import argh
 import numpy as np
@@ -24,9 +23,10 @@ from fastinverse.core import lambdify
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__file__)
 
+
 # y=x/(1+x) has the inverse x = y/(1-y)
 # for x>-1 and x<-1 (inc/inc)
-def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
+def main(yexprstr='x/(1+x)', lookup_N=5, order=3, x_lo=0.0, x_hi=1.0,
          x='x', save_temp=True, sample_N=10240000, check_monotonicity=False,
          itermax=20, nth=102400, silent=False):
     # Parse yexprstr
@@ -36,7 +36,7 @@ def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
     yexpr = yexpr.subs({sympy.Symbol('x'): x})
 
     y = sympy.Symbol('y', real=True)
-    explicit_inverse = sympy.solve(yexpr-y,x)
+    explicit_inverse = sympy.solve(yexpr-y, x)
     if explicit_inverse:
         if len(explicit_inverse) == 1:
             print('Explicit inverse: ' + str(explicit_inverse))
@@ -89,7 +89,7 @@ def main(yexprstr='x/(1+x)', lookup_N = 5, order=3, x_lo=0.0, x_hi=1.0,
         plt.show()
 
     if explicit_inverse:
-        assert np.allclose(xarr_expl, xarr) # our test
+        assert np.allclose(xarr_expl, xarr)  # our test
 
 if __name__ == '__main__':
     argh.dispatch_command(main)

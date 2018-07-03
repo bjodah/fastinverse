@@ -11,11 +11,12 @@ import sympy
 
 RANDOM_SEED = 42
 
+
 def test_InvNewtonCode():
     x, y = sympy.symbols('x y')
     expr1 = x/(1+x)
-    expl_inv = sympy.solve(sympy.Eq(y,expr1), x)
-    lookup_N, order, xlim = 10, 1, (0,1)
+    expl_inv = sympy.solve(sympy.Eq(y, expr1), x)
+    lookup_N, order, xlim = 10, 1, (0, 1)
     invnewton = InvNewtonCode(expr1, lookup_N, order, xlim, x, True)
     ylim = invnewton.ylim
     mod = invnewton.compile_and_import_binary()

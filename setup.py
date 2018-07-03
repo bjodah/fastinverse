@@ -40,10 +40,10 @@ setup(
     author='Björn Dahlgren',
     author_email='bjodah@DELETEMEgmail.com',
     description='Python package using SymPy for generating fast C code solving inverse problems.',
-    license = "BSD",
+    license="BSD",
     url='https://github.com/bjodah/'+name_,
     download_url='https://github.com/bjodah/'+name_+'/archive/v'+version_+'.tar.gz',
     packages=[name_],
-    ext_modules = ext_modules_,
-    cmdclass = cmdclass_,
+    ext_modules=ext_modules_,
+    cmdclass=cmdclass_,
 )
