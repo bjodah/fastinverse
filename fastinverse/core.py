@@ -3,7 +3,6 @@
 from __future__ import division
 
 import os
-import shutil
 
 import numpy as np
 import sympy
