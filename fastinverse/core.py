@@ -176,7 +176,7 @@ class InvNewtonCode(C_Code):
 
     def populate_lookup_x(self):
         self.lookup_x = np.empty(self.lookup_N*(self.order+1))
-        data = np.empty((self.lookup_N, (self.order+1)/2))
+        data = np.empty((self.lookup_N, (self.order+1)//2))
         # The lookup is equidistant in y (implicit problem!)
         self.lookup_y = np.linspace(self.ylim[0], self.ylim[1], self.lookup_N)
         # First find our x's for the equidistant y's
