@@ -10,7 +10,7 @@ def run_example(pypath):
     p = subprocess.Popen(
         ['python%d.%d' % (sys.version_info.major, sys.version_info.minor),
          pypath, '--silent'],
-        cwd=os.path.join(os.path.dirname(__file__),'..'))
+        cwd=os.path.join(os.path.dirname(__file__), '..'))
     assert p.wait() == 0  # systems which have `make` have SUCCESS==0
 
 

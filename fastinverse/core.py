@@ -53,8 +53,9 @@ def make_solver(y, x, ylim, xlim, invertible_fitter=None):
         # TODO:
         # fit parameterized invertible function
         # calculated the invese and use as guess
-        fitexpr, params = invertible_fitter
-        cb_fitexpr = lambdify(x, fitexpr)
+        #
+        # fitexpr, params = invertible_fitter
+        # cb_fitexpr = lambdify(x, fitexpr)
     else:
         DxDy = (xlim[1]-xlim[0])/(ylim[1]-ylim[0])
 
@@ -101,8 +102,7 @@ def ensure_monotonic(y, x, xlim=None, strict=False, solve=True):
 
     """
     ylim = list(map(float, (y.subs({x: xlim[0]}),
-                            y.subs({x: xlim[1]}))
-    ))
+                            y.subs({x: xlim[1]}))))
     if ylim[0] > ylim[1]:
         ylim = (ylim[1], ylim[0])
         incr = False
@@ -153,7 +153,6 @@ class InvNewtonCode(C_Code):
         'inc_dirs': [np.get_include()],
     }
 
-
     def __init__(self, yexpr, lookup_N, order, xlim,
                  x, check_monotonicity=False, approxmeth='piecewise_poly', **kwargs):
         """
@@ -180,7 +179,6 @@ class InvNewtonCode(C_Code):
         )
         self.populate_lookup_x()
         super(InvNewtonCode, self).__init__(**kwargs)
-
 
     def populate_lookup_x(self):
         self.lookup_x = np.empty(self.lookup_N*(self.order+1))
@@ -222,7 +220,7 @@ class InvNewtonCode(C_Code):
         """ returns (expr, dummy_groups, arrayify_groups) """
         if approxmeth == 'piecewise_poly':
             # see approx_x_piecewise_poly_template.c
-            c = [sympy.Symbol('c_' + str(o), real=True) for \
+            c = [sympy.Symbol('c_' + str(o), real=True) for
                  o in range(self.order + 1)]
             localy = sympy.Symbol('localy')
 

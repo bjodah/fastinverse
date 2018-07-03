@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import glob
 import os
 import sys
 
-from distutils.core import setup
-from distutils.command import build
+from setuptools import setup
 
 version_ = '0.0.7'
 name_ = 'fastinverse'
