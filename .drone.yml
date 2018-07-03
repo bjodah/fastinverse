@@ -2,9 +2,7 @@ build:
   image: bjodah/bjodahimg18dev:v1.2
   commands:
     - if [[ "$DRONE_BRANCH" =~ ^v[0-9]+.[0-9]?* ]]; then export FASTINVERSE_RELEASE_VERSION=$DRONE_BRANCH; echo ${FASTINVERSE_RELEASE_VERSION} | tail -c +2 > __conda_version__.txt; fi
-    - python2 -m pip install mpmath pycompilation pycodeexport finitediff sympy https://github.com/bjodah/symvarsub/archive/master.tar.gz https://github.com/bjodah/cinterpol/archive/master.tar.gz 
     - python3 -m pip install mpmath pycompilation pycodeexport finitediff sympy https://github.com/bjodah/symvarsub/archive/master.tar.gz https://github.com/bjodah/cinterpol/archive/master.tar.gz 
-    - PYTHONPATH=$(pwd) PYTHON=python2 ./scripts/run_tests.sh
     - PYTHONPATH=$(pwd) PYTHON=python3 ./scripts/run_tests.sh --cov fastinverse --cov-report html
     - python3 setup.py sdist
     - ./scripts/generate_docs.sh
