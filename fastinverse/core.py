@@ -22,8 +22,10 @@ except ImportError:
     """
     from sympy.utilities.lambdify import lambdify as _lambdify
     from functools import wraps
+
     def lambdify(x, expr):
         cb = _lambdify(x, expr)
+
         @wraps(cb)
         def wrapper(arr):
             if isinstance(arr, np.ndarray):
@@ -55,6 +57,7 @@ def make_solver(y, x, ylim, xlim, invertible_fitter=None):
         cb_fitexpr = lambdify(x, fitexpr)
     else:
         DxDy = (xlim[1]-xlim[0])/(ylim[1]-ylim[0])
+
     def inv_y(y, abstol=1e-13, itermax=30, conv=None):
         """
         Returns x and error estimate thereof
@@ -62,17 +65,18 @@ def make_solver(y, x, ylim, xlim, invertible_fitter=None):
         if invertible_fitter:
             pass
         else:
-            x_ = y0+y*DxDy # guess (linear over xspan)
+            x_ = y0 + y*DxDy  # guess (linear over xspan)
         dy = cb_y(x_)-y
         i=0
-        dx=0.0 # could skip while-loop
+        dx=0.0  # could skip while-loop
         while abs(dy) > abstol and i < itermax:
             dx = -dy/cb_dydx(x_)
             x_ += dx
             dy = cb_y(x_)-y
             i += 1
-            if conv != None: conv.append(dx)
-        if i==itermax:
+            if conv is not None:
+                conv.append(dx)
+        if i == itermax:
             raise RuntimeError("Did not converge")
         return x_, abs(dx)
 
@@ -93,12 +97,12 @@ def ensure_monotonic(y, x, xlim=None, strict=False, solve=True):
     Returns a length 4 tuple:
      (Bool for monotonic: True/False,
       Tuple of two (sorted) ylims: (ylim0, ylim1)
-      Bool for increasing: True/False,
-      )
+      Bool for increasing: True/False)
+
     """
-    ylim = map(float, (y.subs({x: xlim[0]}),
+    ylim = list(map(float, (y.subs({x: xlim[0]}),
                        y.subs({x: xlim[1]}))
-    )
+    ))
     if ylim[0] > ylim[1]:
         ylim = (ylim[1], ylim[0])
         incr = False
